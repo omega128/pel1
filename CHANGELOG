@@ -21,18 +21,16 @@ VERSION 0.1a
 * Create Opening Menu
 * Create Credits Screen
 * Create Settings Dialogue
-* Track Music Volume Control
-* Move projectto Github
+* Add music volume control
+* Move project to Github for version control
 
 === Backlog ===
-
-STILL TO DO
 * Record and implement Opening Narration
 * Create treasures
 * Finalize attic layout
 * Create in-game Settings Dialog
 * Allow player to disable shadows / particles
 * Allow player to set fullscreen/video modes
-* Implement controls for sound and voice volume
+* Implement individual controls for sound and voice volume
 * Implement custom keybinding
 * Switch to more permissive license
