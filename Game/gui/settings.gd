@@ -21,7 +21,8 @@ func _on_save_button_pressed():
 	config["show_particles"] = get_node("tabs/Video/particles_checkbox").is_pressed()
 		
 	# AUDIO:
-	config["music_vol"] = get_node("tabs/Sound/grid/music_volume_slider").get_value()	
+	config["music_vol"] = get_node("tabs/Sound/grid/music_volume_slider").get_value()
+	get_node("../music").set_volume(config["music_vol"])
 	#config["sound_vol"] = get_node("tabs/Sound/grid/sound_volume_slider").get_value()
 	#config["voice_vol"] = get_node("tabs/Sound/grid/voice_volume_slider").get_value()
 	config["show_subtitles"] = get_node("tabs/Sound/grid/subtitles_checkbox").is_pressed()
