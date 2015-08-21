@@ -1,0 +1,38 @@
+EBONSPIRE SPOOKY: PARANORMAL ESTATE LIQUIDATORS
+EPISODE 1: 'THE ATTIC'
+
+=== Changelog ===
+
+VERSION 0.1a
+* Create initial level design
+* Implement Basic FPS controls
+* Add Flashlight and Shadow Map
+* Allow player to pick up/drop objects
+* Allow player to climb ladders
+* Track number of treasures collected
+* Implement "heads up" indicator
+* Create Win State
+* Add the Poltergeist
+* Make display desaturate with health lost
+* Create Death Animation
+* Create Opening Animation
+* Allow player to pause the game
+* "Are You Sure You Want To Quit?"
+* Create Opening Menu
+* Create Credits Screen
+* Create Settings Dialogue
+* Track Music Volume Control
+* Move projectto Github
+
+=== Backlog ===
+
+STILL TO DO
+* Record and implement Opening Narration
+* Create treasures
+* Finalize attic layout
+* Create in-game Settings Dialog
+* Allow player to disable shadows / particles
+* Allow player to set fullscreen/video modes
+* Implement controls for sound and voice volume
+* Implement custom keybinding
+* Switch to more permissive license
