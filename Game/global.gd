@@ -3,17 +3,22 @@ extends Node
 # this will store system settings
 export var config = {}
 
+const CONFIG_FILENAME = "user://config.bin"
+
 # We need to track the current scene, so we can easily switch between scenes in-game.
 var current_scene = null
 
 func _ready ():
+	# let's do some bookkeeping, so we can change scenes at will
 	var root = get_tree().get_root()
 	current_scene = root.get_child( root.get_child_count() -1 )
-	_set_default_config ()
+	
+	# load the user configuration from a file
+	load_config()
 
-# If any config values are not set, fill them with default values.
-func _set_default_config ():	
-	var defaults = {
+# Set the config file to default values
+func _set_default_config ():
+	config = {
 		# VIDEO
 		"show_shadows" : true,
 		"show_particles" : true,
@@ -25,12 +30,25 @@ func _set_default_config ():
 		"show_subtitles" : true
 	}
 	
-	for key in defaults:
-		if not key in config:
-			config[key] = defaults[key]
+# Save the user configuration to disk
+func save_config ():
+	var f = File.new()
+	var err = f.open(CONFIG_FILENAME, File.WRITE)
+	f.store_var( config )
+	f.close()
+	
+# Load the user configuration from disk
+func load_config ():
+	var f = File.new()
+	var err = f.open(CONFIG_FILENAME, File.READ)
+	if err == 0:
+		config = f.get_var()
+		f.close()
+	else:
+		print ("Could not load config file, using default values.")
+		_set_default_config()
 
 # And now some code to let us switch scenes easily:
-
 func goto_scene(path):
     # This function will usually be called from a signal callback,
     # or some other function from the running scene.

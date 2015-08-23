@@ -15,9 +15,9 @@ func _ready ():
 	
 	# get the system configuration
 	config = get_node("/root/global").config
+	print (config)
 	
-	# Set up the...
-	
+	# Set up the...	
 	# VIDEO options:
 	get_node("tabs/Video/shadows_checkbox").set_pressed(config["show_shadows"])
 	get_node("tabs/Video/particles_checkbox").set_pressed(config["show_particles"])
@@ -31,7 +31,6 @@ func _ready ():
 
 func _on_save_button_pressed():
 	# Save the ...
-	
 	# VIDEO options:
 	config["show_shadows"] = get_node("tabs/Video/shadows_checkbox").is_pressed()
 	config["show_particles"] = get_node("tabs/Video/particles_checkbox").is_pressed()
@@ -42,8 +41,12 @@ func _on_save_button_pressed():
 	config["sound_vol"] = get_node("tabs/Sound/grid/sound_volume_slider").get_value()
 	config["voice_vol"] = get_node("tabs/Sound/grid/voice_volume_slider").get_value()
 
+	# Save the configuration to disk
+	get_node("/root/global").save_config()
+	
+	# Get rid of this dialog
 	_on_settings_hide()
-
+	
 # Restore everything, and get rid of this dialog box.
 func _on_settings_hide():
 	get_parent().change_volume()

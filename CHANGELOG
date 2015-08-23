@@ -4,29 +4,30 @@ EPISODE 1: 'THE ATTIC'
 === Changelog ===
 
 VERSION 0.2a
-* Create in-game Settings Dialog
-* Implement individual controls for sound and voice volume
+* Allow Popup Settings Dialog Mid-Game
+* Working Sound, Music, and Voice Setting Sliders
+* Persistent User Settings
 
 VERSION 0.1a
-* Create initial level design
-* Implement Basic FPS controls
-* Add Flashlight and Shadow Map
-* Allow player to pick up/drop objects
-* Allow player to climb ladders
+* Initial level design
+* Basic FPS controls
+* Flashlight and Shadow Map
+* Pick up/drop objects
+* Climb ladders
 * Track number of treasures collected
-* Implement "heads up" indicator
-* Create Win State
-* Add the Poltergeist
-* Make display desaturate with health lost
-* Create Death Animation
-* Create Opening Animation
-* Allow player to pause the game
+* "Toast" messages
+* Win State
+* Poltergeist
+* Display desaturates with health lost
+* Death Animation
+* Opening Animation
+* Pause
 * "Are You Sure You Want To Quit?"
-* Create Opening Menu
-* Create Credits Screen
-* Create Settings Dialogue
-* Add music volume control
-* Move project to Github for version control
+* Opening Title and Menu
+* Credits Screen
+* Settings Dialogue
+* Music Volume Control
+* Github Version Control
 
 === Backlog ===
 * Record and implement Opening Narration
@@ -35,5 +36,4 @@ VERSION 0.1a
 * Allow player to disable shadows / particles
 * Allow player to set fullscreen/video modes
 * Implement custom keybinding
-* Persistent user settings
 * Switch to more permissive license
