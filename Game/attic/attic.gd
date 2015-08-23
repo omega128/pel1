@@ -13,8 +13,6 @@ export var treasures_to_activate_ghost = 1
 var player_can_leave = false
 
 func _ready():
-	var config = get_node("/root/global").config
-
 	# this map uses two songs, and a little narration:
 	attic_bg = load("attic/attic.ogg")
 	boss_bg = load("attic/boss.ogg")
@@ -22,7 +20,7 @@ func _ready():
 	# start the music!
 	get_node("music").set_stream(attic_bg)
 	get_node("music").play ()
-	get_node("music").set_volume(config["music_vol"])
+	change_volume()
 	
 	# the opening animation makes the player climb the stairs and look around.
 	get_node("anim").play("opening")
@@ -55,3 +53,11 @@ func _on_goal_body_enter( body ):
 		else:
 			# Show the player how many treasures are left
 			get_node("player").show_toast (str(treasures_retrieved) + "/" + str(total_treasures))
+
+# Set the volume of every stream and sample player to the values in the user configuration
+func change_volume():
+	var config = get_node("/root/global").config
+	
+	get_node("music").set_volume(config["music_vol"])
+	get_node("player/snd").set_default_volume(config["sound_vol"])
+	get_node("ghost_lady/snd").set_default_volume(config["sound_vol"])

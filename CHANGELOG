@@ -5,6 +5,7 @@ EPISODE 1: 'THE ATTIC'
 
 VERSION 0.2a
 * Create in-game Settings Dialog
+* Implement individual controls for sound and voice volume
 
 VERSION 0.1a
 * Create initial level design
@@ -33,6 +34,5 @@ VERSION 0.1a
 * Finalize attic layout
 * Allow player to disable shadows / particles
 * Allow player to set fullscreen/video modes
-* Implement individual controls for sound and voice volume
 * Implement custom keybinding
 * Switch to more permissive license

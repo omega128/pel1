@@ -42,7 +42,7 @@ func _fixed_process (delta):
 func _on_aura_body_enter( body ):	
 	if active and body extends RigidBody and not body.is_in_group("player"):
 		# if objects come in her field of influence, she tosses them everywhere.
-		var rnd = Vector3(rand_range(-50, 50) * mass, rand_range(-50, 50) * mass, rand_range(-50, 50) * body.get_mass())
+		var rnd = Vector3(rand_range(-50, 50) * body.get_mass(), rand_range(-50, 50) * body.get_mass(), rand_range(-50, 50) * body.get_mass())
 		body.apply_impulse(Vector3(), rnd)
 		
 		# Make a loud noise

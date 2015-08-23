@@ -3,7 +3,7 @@ extends Node
 func _ready ():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_node("anim").play("fade_in")
-	get_node("music").set_volume(get_node("/root/global").config["music_vol"])
+	change_volume()
 
 # This is probably the most straightforward code in the game:
 func _on_button_selected( button ):
@@ -19,3 +19,8 @@ func _on_button_selected( button ):
 
 	if button == 3: # Quit
 		get_tree().quit()
+		
+# Set the volume of the stream player to the values in the user configuration
+func change_volume():
+	var config = get_node("/root/global").config
+	get_node("music").set_volume(config["music_vol"])

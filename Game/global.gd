@@ -6,13 +6,11 @@ export var config = {}
 # We need to track the current scene, so we can easily switch between scenes in-game.
 var current_scene = null
 
-
 func _ready ():
 	var root = get_tree().get_root()
 	current_scene = root.get_child( root.get_child_count() -1 )
 	_set_default_config ()
 
-	
 # If any config values are not set, fill them with default values.
 func _set_default_config ():	
 	var defaults = {
