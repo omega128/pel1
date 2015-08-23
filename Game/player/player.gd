@@ -103,9 +103,10 @@ func _integrate_forces(state):
 		if Input.is_action_pressed("move_right"):
 			direction += aim[0]
 	
-	# Now that we're done getting input, move the player
-	direction = direction.normalized()
-	apply_impulse(Vector3(), direction * get_mass())
+		# Now that we're done getting input, move the player
+		direction = direction.normalized()
+		apply_impulse(Vector3(), direction * get_mass())
+
 	state.integrate_forces()
 	
 func hurt (damage):	

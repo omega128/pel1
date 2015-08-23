@@ -35,4 +35,5 @@ VERSION 0.1a
 * Allow player to disable shadows / particles
 * Allow player to set fullscreen/video modes
 * Implement custom keybinding
+* Persistent user settings
 * Switch to more permissive license

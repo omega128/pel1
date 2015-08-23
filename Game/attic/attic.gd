@@ -12,6 +12,9 @@ export var treasures_to_activate_ghost = 1
 # The player can only leave when they have gathered enough treasures
 var player_can_leave = false
 
+# Once the player has started leaving, we don't want to let them restart the animation
+var game_is_over = false
+
 func _ready():
 	# this map uses two songs, and a little narration:
 	attic_bg = load("attic/attic.ogg")
@@ -28,9 +31,10 @@ func _ready():
 func _on_goal_body_enter( body ):
 	# If the player finishes the level, shut down the ghost and start fading out. When
 	# the animation is done, the player is shown the credits
-	if body.is_in_group("player") and player_can_leave:
+	if body.is_in_group("player") and player_can_leave and not game_is_over:
 		get_node("ghost_lady").deactivate()
 		get_node("anim").play("closing")
+		game_is_over = true
 	
 	# The player just tossed a treasure down.
 	if body.is_in_group ("treasure"):
