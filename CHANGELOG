@@ -3,6 +3,9 @@ EPISODE 1: 'THE ATTIC'
 
 === Changelog ===
 
+VERSION 0.2a
+* Create in-game Settings Dialog
+
 VERSION 0.1a
 * Create initial level design
 * Implement Basic FPS controls
@@ -28,7 +31,6 @@ VERSION 0.1a
 * Record and implement Opening Narration
 * Create treasures
 * Finalize attic layout
-* Create in-game Settings Dialog
 * Allow player to disable shadows / particles
 * Allow player to set fullscreen/video modes
 * Implement individual controls for sound and voice volume

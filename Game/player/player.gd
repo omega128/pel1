@@ -62,17 +62,13 @@ func _input(event):
 		get_tree().set_pause(true)
 		get_node("quit_dialog").show()
 
-#	if Input.is_action_pressed("show_settings"):#
-#		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-#		get_tree().set_pause(true)
-#		
-#		var settings = load("res://gui/settings.scn").instance()
-#		get_tree().get_current_scene().add_child(settings)
+	if Input.is_action_pressed("show_settings"):#
+		var settings = load("res://gui/settings.scn").instance()
+		get_tree().get_current_scene().add_child(settings)
 
 func _fixed_process (delta):
 	if holding:
 		holding.set_translation (hold_pos.get_global_transform().origin)
-
 
 func _integrate_forces(state):
 	var aim = get_node("yaw").get_global_transform().basis
