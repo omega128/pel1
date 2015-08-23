@@ -1,15 +1,15 @@
 extends Spatial
 
-# We use two main songs in this level
+# We use two main songs in this level, which are both stored as streams
 var attic_bg
 var boss_bg
 
-# The objective of this game is to retrieve a total number of treasures
+# The objective of this game is to retrieve a certain number of treasures
 export var total_treasures = 0
-export var treasures_to_activate_ghost = 1
 var treasures_retrieved = 0
+export var treasures_to_activate_ghost = 1
 
-var fighting_boss = false
+# The player can only leave when they have gathered enough treasures
 var player_can_leave = false
 
 func _ready():
@@ -20,31 +20,38 @@ func _ready():
 	boss_bg = load("attic/boss.ogg")
 	
 	# start the music!
-	get_node("music").set_stream(attic_bg)	
+	get_node("music").set_stream(attic_bg)
 	get_node("music").play ()
 	get_node("music").set_volume(config["music_vol"])
 	
-	# the opening animation makes the player look around as they enter the attic.
+	# the opening animation makes the player climb the stairs and look around.
 	get_node("anim").play("opening")
 
 func _on_goal_body_enter( body ):
+	# If the player finishes the level, shut down the ghost and start fading out. When
+	# the animation is done, the player is shown the credits
 	if body.is_in_group("player") and player_can_leave:
 		get_node("ghost_lady").deactivate()
 		get_node("anim").play("closing")
-		
+	
+	# The player just tossed a treasure down.
 	if body.is_in_group ("treasure"):
-		body.remove_from_group ("treasure")
+		body.remove_from_group ("treasure") # Make sure we don't accidentally count this twice
+		
+		# We keep track of how many treasures have been recovered
 		treasures_retrieved += 1
 		
-		if not fighting_boss and treasures_retrieved == treasures_to_activate_ghost:
+		# After a set number, we change music and activate the ghost
+		if treasures_retrieved == treasures_to_activate_ghost:
 			get_node("music").set_stream(boss_bg)
 			get_node("music").play()
 			get_node("ghost_lady").activate()
-			fighting_boss = true
 		
+		# The player can exit after a sset number of treasures
 		if treasures_retrieved >= total_treasures and not player_can_leave:
 			get_node("player").show_toast ("You're done! You can leave now.")
 			get_node("NoPASS").queue_free()
 			player_can_leave = true
 		else:
+			# Show the player how many treasures are left
 			get_node("player").show_toast (str(treasures_retrieved) + "/" + str(total_treasures))

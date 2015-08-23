@@ -3,7 +3,9 @@ extends Node
 # this will store system settings
 export var config = {}
 
+# We need to track the current scene, so we can easily switch between scenes in-game.
 var current_scene = null
+
 
 func _ready ():
 	var root = get_tree().get_root()
@@ -28,6 +30,8 @@ func _set_default_config ():
 	for key in defaults:
 		if not key in config:
 			config[key] = defaults[key]
+
+# And now some code to let us switch scenes easily:
 
 func goto_scene(path):
     # This function will usually be called from a signal callback,

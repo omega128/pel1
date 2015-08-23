@@ -5,6 +5,7 @@ func _ready ():
 	get_node("anim").play("fade_in")
 	get_node("music").set_volume(get_node("/root/global").config["music_vol"])
 
+# This is probably the most straightforward code in the game:
 func _on_button_selected( button ):
 	if button == 0: # Play
 		get_node("/root/global").goto_scene("res://attic/attic.scn")

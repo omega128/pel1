@@ -1,6 +1,5 @@
 extends RigidBody
 
-# This becomes true when the 'opening' animation ends.
 export var can_move = false
 
 # Walking
@@ -14,34 +13,30 @@ export var yaw = 0
 export var pitch = 0
 
 # Holding Things
-var holding = null
-var hold_pos = null
+var holding = null # This is a pointer to the currently held object's node. When nothing is held, it is set to 'null'
+var hold_pos = null # this is a pointer to a Spatial marking the distance from the camera an object is held at
 
-# Health and Score
+# You have 100 health at start.
 var health = 100
 
-func _ready():	
-	
-	# set up the camera
-	get_node("yaw/camera/flashlight").set("cast_shadows", false)
-	
-	# The user can pick things up
+func _ready():		
 	hold_pos = get_node("yaw/camera/in_front")
+	
+	# when looking at things, don't get in our own way.
 	get_node("yaw/camera/looking_at").add_exception(self)
 	get_node("ray").add_exception(self)
 	
-	# strafing needs a keyboard
+	# We need to pay attention to the keyboard
 	set_process_input(true)
 
 	# we want the mouse, too.
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
-	# 60 FPS,  peoples!
+	# 60 FPS or bust.
 	set_fixed_process(true)
 	OS.set_iterations_per_second(60)
 	
 func _input(event):
-	# This is the way we track the mouse, track the mouse, track the mouse...
 	if event.type == InputEvent.MOUSE_MOTION and can_move:
 		yaw = fmod(yaw - event.relative_x * view_sensitivity, 360)
 		
@@ -50,23 +45,25 @@ func _input(event):
 		get_node("yaw").set_rotation(Vector3(0, deg2rad(yaw), 0))
 		get_node("yaw/camera").set_rotation(Vector3(deg2rad(pitch), 0, 0))
 		
-	# if you pause the game, show the pause dialogue
+	# if you pause the game, show the mouse and the pause dialogue,
 	if Input.is_action_pressed("pause"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		get_tree().set_pause(true)
 		get_node("pause_dialog").show()
 		
-	# if you try to quit the game, we pause and bring up a y/n "are you sure?" option
+	# if you try to quit the game, we pause, show the mouse, and bring up a y/n "are you sure?" dialog
 	if Input.is_action_pressed("quit"):
 		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		get_tree().set_pause(true)
 		get_node("quit_dialog").show()
 
+	# We do the same thing for game options, except it's stored in it's own scene file
 	if Input.is_action_pressed("show_settings"):#
 		var settings = load("res://gui/settings.scn").instance()
 		get_tree().get_current_scene().add_child(settings)
 
 func _fixed_process (delta):
+	# as long as the user is holding an object, keep it in front of the camera
 	if holding:
 		holding.set_translation (hold_pos.get_global_transform().origin)
 
@@ -76,7 +73,6 @@ func _integrate_forces(state):
 
 	if can_move:
 		if Input.is_action_pressed("use"):
-			# if not holding something...
 			if not holding:
 				# cast a ray to find what we're looking at
 				if get_node("yaw/camera/looking_at").is_colliding():
@@ -92,11 +88,12 @@ func _integrate_forces(state):
 						direction += Vector3(0, 0.05, 0)
 						
 		else:
-			# if holding an item, drop it
+			# if the key is not held, but whe're still holding an item, drop it
 			if holding:
 				holding.set_linear_velocity (Vector3(0, 0, 0))
 				holding = null
 	
+		# WSAD are very useful.
 		if Input.is_action_pressed("move_forward"):
 			direction -= aim[2]
 		if Input.is_action_pressed("move_backward"):
@@ -105,16 +102,14 @@ func _integrate_forces(state):
 			direction -= aim[0]
 		if Input.is_action_pressed("move_right"):
 			direction += aim[0]
-		
+	
+	# Now that we're done getting input, move the player
 	direction = direction.normalized()
 	apply_impulse(Vector3(), direction * get_mass())
 	state.integrate_forces()
 	
-func _exit_scene():
-	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-
 func hurt (damage):	
-	# If you're already dying, we can't be hurt, so don't start the animation again.
+	# If you're already dying, you can't be hurt, so don't start the animation again.
 	if health <= 0:
 		return
 	
@@ -125,15 +120,15 @@ func hurt (damage):
 	holding = null
 	
 	if health <= 0:
-		# You're dead! Toss the player around and fade out
-		can_move = false
+		# When the player dies, we toss them around, make the ghost sound and fade out before taking them to the credits.
+		can_move = false		
 		var rnd = Vector3(rand_range(-50, 50), rand_range(0, 5), rand_range(-50, 50))
 		set_linear_velocity (rnd)
 		set_angular_velocity (Vector3(1, 1, 1))
 		get_node("../anim").play("closing")
 		self.get_node("snd").play ("ghost0")
 	else:
-		# As the player gets more damaged, their vision loses saturation
+		# As the player gets more damaged, their vision loses saturation to show it
 		get_node("yaw/camera").get_environment().fx_set_param(Environment.FX_PARAM_BCS_SATURATION, (health / 100.00))
 		
 		# Toss the player around
@@ -142,23 +137,24 @@ func hurt (damage):
 		
 		# Fade the screen in and out
 		get_node("../anim").play("woozy")
+		
+		# The player's "take damage" sound is currently the same as the "we've just been kicked" noise.
 		self.get_node("snd").play ("punch0" + str(int(rand_range(1, 5))))
 
+# Show a message on the screen
 func show_toast (message):
 	var toast = get_node("toast")
 	toast.set_opacity(0)
 	toast.set_text(message)
 	get_node("anim").play("show_toast")
 
+# When the player wants to leave, fix the mouse, unpause the game, and take us back to the menu
 func _on_quit_dialog_confirmed():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	get_tree().set_pause(false)
 	get_node("/root/global").goto_scene("res://gui/menu.scn")
 
-func _on_quit_dialog_hide():
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	get_tree().set_pause(false)
-
-func _on_pause_dialog_confirmed():
+# after hiding a dialog box, return us to the game
+func _on_dialog_hide():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	get_tree().set_pause(false)
