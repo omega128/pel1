@@ -3,13 +3,18 @@ EPISODE 1: 'THE ATTIC'
 
 === Changelog ===
 
-VERSION 0.2a
-* Allow Popup Settings Dialog Mid-Game
+VERSION 1.0
+* Settings Dialog Available Mid-Game
 * Working Sound, Music, and Voice Setting Sliders
 * Persistent User Settings
-* Switch to more permissive license
+* Permissive License
+* Opening Narration
+* Treasures
+* Enable/disable shadows / particles
+* Set fullscreen/video modes
+* Custom keybinding
 
-VERSION 0.1a
+VERSION 0.9a
 * Initial level design
 * Basic FPS controls
 * Flashlight and Shadow Map
@@ -29,12 +34,4 @@ VERSION 0.1a
 * Settings Dialogue
 * Music Volume Control
 * Github Version Control
-
-=== Backlog ===
-* Record and implement Opening Narration
-* Create treasures
-* Finalize attic layout
-* Allow player to disable shadows / particles
-* Allow player to set fullscreen/video modes
-* Implement custom keybinding
 
