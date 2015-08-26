@@ -1,14 +1,12 @@
 extends RigidBody
 
-export var can_move = false
-
 # Walking
+export var can_move = false
 var walk_speed = 0
 const max_accel = 0.005
 const air_accel = 0.02
 
 # Perspective
-export var view_sensitivity = 0.25
 export var yaw = 0
 export var pitch = 0
 
@@ -16,11 +14,15 @@ export var pitch = 0
 var holding = null # This is a pointer to the currently held object's node. When nothing is held, it is set to 'null'
 var hold_pos = null # this is a pointer to a Spatial marking the distance from the camera an object is held at
 
+# System configuration
+var config
+
 # You have 100 health at start.
 var health = 100
 
-func _ready():		
+func _ready():
 	hold_pos = get_node("yaw/camera/in_front")
+	config = get_node("/root/global").config
 	
 	# when looking at things, don't get in our own way.
 	get_node("yaw/camera/looking_at").add_exception(self)
@@ -38,10 +40,11 @@ func _ready():
 	
 func _input(event):
 	if event.type == InputEvent.MOUSE_MOTION and can_move:
-		yaw = fmod(yaw - event.relative_x * view_sensitivity, 360)
+		#yaw = fmod(yaw - event.relative_x * view_sensitivity, 360)
+		yaw = fmod(yaw - event.relative_x * config["mouse_sensitivity"], 360)
 		
 		# Quake-like minimum pitch -80, maximum pitch 70:
-		pitch = max(min(pitch - event.relative_y * view_sensitivity, 70), -80)		
+		pitch = max(min(pitch - event.relative_y * config["mouse_sensitivity"], 70), -80)
 		get_node("yaw").set_rotation(Vector3(0, deg2rad(yaw), 0))
 		get_node("yaw/camera").set_rotation(Vector3(deg2rad(pitch), 0, 0))
 		
@@ -84,8 +87,9 @@ func _integrate_forces(state):
 						holding.set_linear_velocity (Vector3(0, 0, 0))
 					
 					# if we're in front of a ladder, start climbing
-					if thing.is_in_group("climbable") and direction[1] < 1:
-						direction += Vector3(0, 0.05, 0)
+					if thing.is_in_group("climbable"):
+						#direction += Vector3(0, 1, 0)
+						apply_impulse(Vector3(), Vector3(0, 0.65, 0) * get_mass())
 						
 		else:
 			# if the key is not held, but whe're still holding an item, drop it

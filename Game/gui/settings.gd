@@ -18,9 +18,9 @@ func _ready ():
 	print (config)
 	
 	# Set up the...	
-	# VIDEO options:
-	get_node("tabs/Video/shadows_checkbox").set_pressed(config["show_shadows"])
-	get_node("tabs/Video/particles_checkbox").set_pressed(config["show_particles"])
+	# GRAPHICS options:
+	get_node("tabs/Graphics/shadows_checkbox").set_pressed(config["show_shadows"])
+	get_node("tabs/Graphics/particles_checkbox").set_pressed(config["show_particles"])
 
 	# SOUND options:
 	get_node("tabs/Sound/grid/music_volume_slider").set_value(config["music_vol"])
@@ -28,12 +28,15 @@ func _ready ():
 	get_node("tabs/Sound/grid/voice_volume_slider").set_value(config["voice_vol"])
 	get_node("tabs/Sound/grid/subtitles_checkbox").set_pressed(config["show_subtitles"])
 	get_parent().change_volume()
+	
+	# INPUT options
+	get_node("tabs/Input/grid/mouse_sensitivity_slider").set_value(config["mouse_sensitivity"])
 
 func _on_save_button_pressed():
 	# Save the ...
-	# VIDEO options:
-	config["show_shadows"] = get_node("tabs/Video/shadows_checkbox").is_pressed()
-	config["show_particles"] = get_node("tabs/Video/particles_checkbox").is_pressed()
+	# GRAPHICS options:
+	config["show_shadows"] = get_node("tabs/Graphics/shadows_checkbox").is_pressed()
+	config["show_particles"] = get_node("tabs/Graphics/particles_checkbox").is_pressed()
 
 	# SOUND options:
 	config["show_subtitles"] = get_node("tabs/Sound/grid/subtitles_checkbox").is_pressed()
@@ -41,6 +44,9 @@ func _on_save_button_pressed():
 	config["sound_vol"] = get_node("tabs/Sound/grid/sound_volume_slider").get_value()
 	config["voice_vol"] = get_node("tabs/Sound/grid/voice_volume_slider").get_value()
 
+	# INPUT options
+	config["mouse_sensitivity"] = get_node("tabs/Input/grid/mouse_sensitivity_slider").get_value()
+	
 	# Save the configuration to disk
 	get_node("/root/global").save_config()
 	

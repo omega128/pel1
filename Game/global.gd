@@ -27,7 +27,10 @@ func _set_default_config ():
 		"music_vol" : 1,
 		"sound_vol" : 1,
 		"voice_vol" : 1,
-		"show_subtitles" : true
+		"show_subtitles" : true,
+		
+		# INPUT
+		"mouse_sensitivity" : 0.25
 	}
 	
 # Save the user configuration to disk
