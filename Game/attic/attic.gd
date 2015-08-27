@@ -63,5 +63,6 @@ func change_volume():
 	var config = get_node("/root/global").config
 	
 	get_node("music").set_volume(config["music_vol"])
+	get_node("Narrator").set_volume(config["voice_vol"])
 	get_node("player/snd").set_default_volume(config["sound_vol"])
 	get_node("ghost_lady/snd").set_default_volume(config["sound_vol"])

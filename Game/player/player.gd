@@ -61,7 +61,7 @@ func _input(event):
 		get_node("quit_dialog").show()
 
 	# We do the same thing for game options, except it's stored in it's own scene file
-	if Input.is_action_pressed("show_settings"):#
+	if Input.is_action_pressed("show_settings"):
 		var settings = load("res://gui/settings.scn").instance()
 		get_tree().get_current_scene().add_child(settings)
 
